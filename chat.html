@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISA - Crypt App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chat__wrapper"  id="user1">
+                    <div class="chat__header">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <h5>John Smith</h5>
+                                <small>User 1</small>
+                            </div>
+                        </div>
+                        <div class="chat__image__header">
+                            <img src="img/user1.jpg" class="img-fluid rounded-circle" style="width: 54px; border: 3px solid #67AEF7;">
+                        </div>
+                    </div>
+                    <div class="chat__inside">
+                    </div>
+
+                    <div class="chat__input__wrapper">
+                        <div class="d-flex">
+                            <textarea class="form-control" placeholder="Send Messages..." id="textarea1"></textarea>
+                            <button type="button" class="btn btn-primary" id="btnSend1">SEND</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="chat__wrapper" id="user2">
+                    <div class="chat__header">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <h5>Whempy UBAYA</h5>
+                                <small>User 2</small>
+                            </div>
+                        </div>
+                        <div class="chat__image__header">
+                            <img src="img/user2.jpg" class="img-fluid rounded-circle"
+                                style="width: 54px; border: 3px solid #67AEF7;">
+                        </div>
+                    </div>
+                    <div class="chat__inside">
+                    </div>
+                        <div class="chat__input__wrapper">
+                            <div class="d-flex">
+                                <textarea class="form-control" placeholder="Send Messages..." id="textarea2"></textarea>
+                                <button type="button" class="btn btn-primary" id="btnSend2">SEND</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav">
+            <a class="nav-link" href="index.html">Demo 1</a>
+            <a class="nav-link active" aria-current="page" href="#">Demo 2</a>
+        </nav>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+    <script>
+        let encryptedText = [];
+        let decryptedText = [];
+        let affineKeyA = 5;
+        let affineKeyB = 12;
+        let vigenereKey = "akusayangkamu";
+        let transKey = "akujugasayangkamu";
+
+        $('#btnSend1').on("click", function () {
+            let text = $("#textarea1").val();
+            text = text.toLowerCase();
+            text = text.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+
+            const arrText = text.split(" ");
+
+            arrText.forEach(e => {
+                encryptedText.push(encryptAll(e, affineKeyA, affineKeyB, vigenereKey, transKey));
+            });
+
+            encryptedText.forEach(e => {
+                decryptedText.push(decryptAll(e, affineKeyA, affineKeyB, vigenereKey, transKey));
+            }) 
+            
+            $('#user2 .chat__inside').append(`
+                <div class="chat__bubble__wrapper">
+                    <div class="chat__bubble default">
+                        <div class="chat__bubble__box default">
+                            <p>${decryptedText.join(" ")}</p>
+                        </div>
+                    </div>
+                    <div class="time default">
+                        <p>11:05 PM</p>
+                    </div>
+                </div>
+            `)
+
+            $('#user1 .chat__inside').append(`
+                <div class="chat__bubble__wrapper">
+                    <div class="chat__bubble me">
+                        <div class="chat__bubble__box me">
+                            <p>${decryptedText.join(" ")}</p>
+                        </div>
+                    </div>
+                    <div class="time me">
+                        <p>11:05 PM</p>
+                    </div>
+                </div>
+            `)
+
+            $("#textarea1").val("");
+            encryptedText = [];
+            decryptedText = [];
+        })
+
+        $('#btnSend2').on("click", function () {
+            let text = $("#textarea2").val();
+            text = text.toLowerCase();
+            text = text.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+
+            const arrText = text.split(" ");
+
+            arrText.forEach(e => {
+                encryptedText.push(encryptAll(e, affineKeyA, affineKeyB, vigenereKey, transKey));
+            });
+
+            encryptedText.forEach(e => {
+                decryptedText.push(decryptAll(e, affineKeyA, affineKeyB, vigenereKey, transKey));
+            }) 
+            
+            $('#user1 .chat__inside').append(`
+                <div class="chat__bubble__wrapper">
+                    <div class="chat__bubble default">
+                        <div class="chat__bubble__box default">
+                            <p>${decryptedText.join("   ")}</p>
+                        </div>
+                    </div>
+                    <div class="time default">
+                        <p>11:05 PM</p>
+                    </div>
+                </div>
+            `)
+
+            $('#user2 .chat__inside').append(`
+                <div class="chat__bubble__wrapper">
+                    <div class="chat__bubble me">
+                        <div class="chat__bubble__box me">
+                            <p>${decryptedText.join(" ")}</p>
+                        </div>
+                    </div>
+                    <div class="time me">
+                        <p>11:05 PM</p>
+                    </div>
+                </div>
+            `)
+            $("#textarea2").val("");
+            encryptedText = [];
+            decryptedText = [];
+        })
+
+    </script>
+</body>
+</html>
