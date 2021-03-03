@@ -1,0 +1,31 @@
+form {
+  margin: auto;
+}
+
+.content-header {
+  text-align: center;
+}
+
+.content-header h3::after {
+  content: "";
+  position: relative;
+  display: block;
+  width: 50px;
+  margin: 10px auto;
+  height: 3px;
+  background: linear-gradient(90deg, #337099, #7563b4);
+}
+
+.form_wrapper {
+  margin: auto;
+  max-width: 500px;
+  margin-top: 50px;
+  padding: 50px;
+  box-shadow: 0 0 30px 2px rgb(0 0 0 / 7%);
+  min-height: 650px;
+}
+
+textarea {
+  min-height: 500px;
+  resize: vertical;
+}
